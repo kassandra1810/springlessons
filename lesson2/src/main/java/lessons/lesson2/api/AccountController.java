@@ -40,8 +40,8 @@ public class AccountController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Account create(@RequestBody Account resource) {
-        return accountService.create(resource);
+    public ResponseEntity<Account> create(@RequestBody Account resource) {
+        return new ResponseEntity<>(accountService.create(resource), HttpStatus.CREATED);
     }
 
 
@@ -49,7 +49,7 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Account> update(@PathVariable( "id" ) Long id, @RequestBody Account toUpdate) {
         Optional<Account> account = accountService.update(id, toUpdate);
-        return account.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+        return account.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 
